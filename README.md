@@ -1,7 +1,6 @@
- Set of scripts to digest video under
- Termux for android
-
-iConcatinate, add subtitles, LOGO, "normaluze" video etc.
+ Set of scripts to digest video under Termux for android
+ 
+Concatinate, add subtitles, LOGO, "normaluze" video etc.
 
 bash scripts use ffmpeg and imahemagick
 
@@ -27,8 +26,3 @@ tglogo.png - logo telegram
 tgsign.png - my tg, you can replace it
 vert - "normalize" cropped video, eg make 720x1280, DAR 9:16
 vpart - cut video fragment from youtube.
-=======
-# make-shorts
-
-Some bash scripts for ffmpeg to work with video 
->>>>>>> 655c771c41225f51842e426b5e61fd501c05426e
