@@ -1,0 +1,16 @@
+alias dta="cd /storage/emulated/0/Download"
+alias tmp="cd /storage/emulated/0/Download/tmp"
+alias vid="cd /storage/emulated/0/Download/video"
+alias ya="cd $HOME"
+alias tp="cd ~/termux-packages"
+PATH=$PATH:~/bin
+export sec='/data/data/com.termux/files/home/bin/1sec.mp3'
+export p720='/data/data/com.termux/files/home/bin/720.png'
+export p1280='/data/data/com.termux/files/home/bin/1280.png'
+export p1920='/data/data/com.termux/files/home/bin/1920.png'
+export pv720='/data/data/com.termux/files/home/bin/pv720.png'
+export tglogo='/data/data/com.termux/files/home/bin/tglogo.png'
+export tgsign='/data/data/com.termux/files/home/bin/tgsign.png'
+alias z="7z"
+export TMP='/storage/emulated/0/Download/tmp'
+export dwd='/storage/emulated/0/Download'
