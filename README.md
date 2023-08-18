@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-* Set of scripts to digest video under Termux for android*
+ Set of scripts to digest video under
+ Termux for android
 
 iConcatinate, add subtitles, LOGO, "normaluze" video etc.
 
