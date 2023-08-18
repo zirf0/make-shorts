@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# video $1
+#  overlay $2
+
+
+if [[ -z $2 ]]; then
+echo 'usage:  overlay inputvideo overlayvideo' 
+echo 'output will be output.mp4'
+exit
+fi
+
+ffmpeg -y -i $1 -i $2 -filter_complex " [1]format=rgb24,colorkey=black,colorchannelmixer=aa=0.33[1d]; [0][1d]overlay[v1]" \
+ -map '[v1]' -map 0:a -c:a copy -c:v libx264 -preset ultrafast output.mp4

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# get part from youtube
+YT='yt-dlp'
+TMP='tmp.tmp'
+
+# $1 is start time $2 is end time $3 is url
+
+if [ -z $4 ];
+then 
+echo 'usage: vpart start_time end_time url outfile'
+echo
+echo 'Example: vpart 00:00:00 00:00:10 https://youtu.be/ETA6P3sNqQY out.mp4'
+exit
+fi
+
+$YT -g $3 > $TMP # get video and audio urls
+video=$(head -n 1 $TMP)
+audio=$(tail -n 1 $TMP)
+	
+ffmpeg -ss "$1"  -i $video -ss "$1" -i $audio -map 0:v -map 1:a -to "$2" -c:v libx264 -b:v 1M -y $4 
+rm $TMP

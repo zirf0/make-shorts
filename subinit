@@ -1,0 +1,3 @@
+#!/bin/bash
+echo 'copy skel.ass, sub.ass sub-yt.ass here'
+cp ~/bin/sub*.ass ~/bin/skel.ass  .

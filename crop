@@ -1,0 +1,25 @@
+#!/bin/bash
+
+. ~/bin/colours # add colors defs
+
+# 1 - input file
+# 2 - start time
+# 3 - end time
+# 4 - crop h size 
+# 5 - crop v size
+# 6 - crop h offset
+# 7 - crop v offset
+# 8 - output file 
+
+if [ -z $8 ];
+then 
+echo -e ${BLUE} ' inputfile starttime endtime crophsize \
+cropvsize crophoffset cropvoffset outputfile' 
+echo
+echo -e 'Example: crop input.mp4 0 7 600 800 100 0 out.mp4'${NC}
+exit
+fi
+
+
+
+ffmpeg -i $1 -c:v libx264 -ss $2 -t $3 -vf crop="$4":$5:$6:$7 -s 720x1280 -y $8

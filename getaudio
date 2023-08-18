@@ -1,0 +1,14 @@
+#!/bin/bash
+
+YT='yt-dlp'
+
+# get url, $1 - youtube uri
+#
+if [[ -z $2 ]]; then
+	echo "usage $0 youtube_url outfile.mp3"
+	exit
+fi
+$YT -g $1 > t
+a=$(tail -n 1 t)
+rm t
+ffmpeg -i $a $2

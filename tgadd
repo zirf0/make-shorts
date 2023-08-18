@@ -1,0 +1,14 @@
+#! /bin/bash
+
+. ~/bin/colours # add colors scheme
+# tgadd inputvideo outputvideo
+echo -e ${BLUE}  "This script add tg-channel to video" ${NC}
+if [ -z $2 ];
+then 
+echo -e ${RED}"usage:${NC} tgadd inputvideo outputvideo"
+echo
+echo 'Example: tgadd 00.mp4 out.mp4'
+exit
+fi
+
+ffmpeg -i $1 -i $tgsign -i $tglogo -filter_complex "[0]overlay=100:50[in1];[in1]overlay=50:60[in2]" -map [in2] -map 0:a -c:v libx264  -y $2

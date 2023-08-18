@@ -1,0 +1,7 @@
+#/bin/bash
+# make annotation  makeann fontsize in_pic 'annotation' out_pic 
+if [[ -z $6 ]]; then
+echo usage makeann fontcolor fontsize vertposition  bgpic 'annotation' outpic
+exit
+fi
+magick -fill $1 $4 -gravity North -pointsize $2 -font Noto-Serif -annotate +0+$3 "$5"  $6	

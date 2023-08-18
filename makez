@@ -1,0 +1,11 @@
+#!/bin/bash
+# make mp4 from png
+
+if [[ -z $3 ]]; then
+echo usage 'makez inputpic outputvideo durariontime' 
+exit
+fi
+
+ffmpeg -loop 1 -i $1 -t $3 -pix_fmt yuv420p  -y  tmp.mp4
+ffmpeg -i tmp.mp4 -i $sec -map 0:v -map 1:a -y $2
+rm tmp.mp4

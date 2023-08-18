@@ -1,0 +1,15 @@
+#!/bin/bash
+ # morph 2 pics
+if [[ -z $3 ]]; then
+echo usage morphing pic1 pic2 out_video
+exit
+fi
+
+ffmpeg -y -r 0.3 -stream_loop 1 -i \
+ $1 -r 0.3 -stream_loop 2 -i $2 \
+ -filter_complex  \
+"[0][1]concat=n=2:v=1:a=0[v];\
+[v]minterpolate=fps=24:scd=none,\
+trim=3:7,setpts=PTS-STARTPTS" \
+-pix_fmt yuv420p  tmp.mp4
+ffmpeg -i tmp.mp4 -i $sec -map 0:v -map 1:a $3
