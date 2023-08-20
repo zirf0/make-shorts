@@ -24,7 +24,7 @@ crop - cut&crop video.
 
 getaudio - get audio from youtube.
 
-makeann -  cteate notes over picture (imagemagick).
+makeann -  create notes over picture (imagemagick). makeannb, makeanni for bold and italic, respectively.
 
 makez - make video from a static picture with fake audio track.
 

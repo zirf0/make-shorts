@@ -1,3 +1,9 @@
 #!/bin/bash
 
+. ~/bin/colours # add colors defs
+
+if [[ -z $3 ]]; then                     echo -e ${NC} "usage: \n${BLUE}concat input1.mp4 input2.m4 concat.mp4 "${NC}
+exit
+fi
+
 ffmpeg -i $1 -i $2 -filter_complex 'concat=n=2:v=1:a=1' -vsync 2 -c:v libx264 $3

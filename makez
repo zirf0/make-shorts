@@ -1,8 +1,10 @@
 #!/bin/bash
+. ~/bin/colours
 # make mp4 from png
-
+# TODO fix addition of audio.
 if [[ -z $3 ]]; then
-echo usage 'makez inputpic outputvideo durariontime' 
+echo -e "Usage:\n${BLUE}makez inputpic outputvideo durariontime"${NC}
+echo -e "Example:\n${BLUE}makez pic.png out.mp4 4"${NC}
 exit
 fi
 

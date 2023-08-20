@@ -2,12 +2,11 @@
 
 . ~/bin/colours # add colors scheme
 # tgadd inputvideo outputvideo
-echo -e ${BLUE}  "This script add tg-channel to video" ${NC}
+echo -e ${BLUE}  "This script adds tg-channel to video" ${NC}
 if [ -z $2 ];
 then 
-echo -e ${RED}"usage:${NC} tgadd inputvideo outputvideo"
-echo
-echo 'Example: tgadd 00.mp4 out.mp4'
+echo -e ${RED}"Usage:${NC} tgadd inputvideo outputvideo"
+echo -e "${RED}Example:${NC} tgadd 00.mp4 out.mp4"
 exit
 fi
 

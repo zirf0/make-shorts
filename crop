@@ -13,10 +13,11 @@
 
 if [ -z $8 ];
 then 
+echo -e Usage:
 echo -e ${BLUE} ' inputfile starttime endtime crophsize \
 cropvsize crophoffset cropvoffset outputfile' 
-echo
-echo -e 'Example: crop input.mp4 0 7 600 800 100 0 out.mp4'${NC}
+echo -e ${WHITE} Example:
+echo -e ${BLUE}'crop input.mp4 0 7 600 800 100 0 out.mp4'${NC}
 exit
 fi
 
