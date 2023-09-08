@@ -1,5 +1,5 @@
 #!/bin/bash
-. ~/bin/colours
+. colours
  # morph 2 pics
 if [[ -z $3 ]]; then
 echo -e "Usage:\n${BLUE}morphing pic1 pic2 out_video"${NC}

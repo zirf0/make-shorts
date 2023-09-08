@@ -1,0 +1,36 @@
+#/bin/bash
+#
+. colours
+
+# make annotation  annotat fontsize in_pic 'annotation' out_pic 
+
+
+if [[ -z $6 ]]; then
+echo -e  "Usage \n ${BLUE}annotat fontcolor fontsize vertposition  bgpic 'annotation' outpic ${NC}"
+echo -e "Example\n ${BLUE}annotat yellow 30 200 bg.png 'Lorem ipsum' out.png${NC} "
+exit
+fi
+
+readarray -O 1 -t a < ~/.fontinuse #файл с именами шрифтов
+len=${#a[*]}
+echo   'Всего шрифтов ' $len 
+
+for index in ${!a[*]}
+do
+    printf "%4d: %s\n" $index ${a[$index]}
+done
+
+while :; do
+  read -p "Выберите шрифт: 1-$len: " number
+  [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
+  if ((number >= 1 && number <= $len)); then
+    echo "Выбран"  ${a[$number]}
+    break
+  else
+    echo "Пока нет такого, выберите имеющийся"
+  fi
+  echo -e ${NC}
+done
+
+magick -fill $1 $4 -gravity North -pointsize $2 -font ${a[$number]}  -annotate +0+$3 "$5"  $6	
+

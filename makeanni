@@ -1,6 +1,6 @@
 #/bin/bash
 #
-. ~/bin/colours
+. colours
 
 # make annotation  makeann fontsize in_pic 'annotation' out_pic 
 

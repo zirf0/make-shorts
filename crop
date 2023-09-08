@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/bin/colours # add colors defs
+. colours # add colors defs
 
 # 1 - input file
 # 2 - start time

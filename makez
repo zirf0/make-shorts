@@ -1,5 +1,5 @@
 #!/bin/bash
-. ~/bin/colours
+. colours
 # make mp4 from png
 # TODO fix addition of audio.
 if [[ -z $3 ]]; then

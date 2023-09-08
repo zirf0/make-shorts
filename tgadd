@@ -1,6 +1,6 @@
 #! /bin/bash
 
-. ~/bin/colours # add colors scheme
+. colours # add colors scheme
 # tgadd inputvideo outputvideo
 echo -e ${BLUE}  "This script adds tg-channel to video" ${NC}
 if [ -z $2 ];

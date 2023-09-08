@@ -1,5 +1,5 @@
 #!/bin/bash
-. ~/bin/colours
+. colours
 # get part from youtube
 YT='yt-dlp'
 TMP='tmp.tmp'
@@ -14,7 +14,7 @@ echo -e "Example:\n${BLUE}vpart 00:00:00 10 https://youtu.be/ETA6P3sNqQY out.mp4
 exit
 fi
 
-$YT -g $3 > $TMP # get video and audio urls
+$YT --youtube-skip-dash-manifest -g $3 > $TMP # get video and audio urls
 video=$(head -n 1 $TMP)
 audio=$(tail -n 1 $TMP)
 	

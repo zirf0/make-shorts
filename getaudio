@@ -1,6 +1,6 @@
 #!/bin/bash
 # add colors definitions 
-. ~/bin/colours
+. colours
 YT='yt-dlp'
 
 # get url, $1 - youtube uri

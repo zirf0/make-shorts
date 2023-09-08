@@ -1,8 +1,11 @@
 #/bin/bash
 #
-. ~/bin/colours
+. colours
 
 # make annotation  makeann fontsize in_pic 'annotation' out_pic 
+echo -e "${RED}Этот скрипт является устаревшим"
+echo -e "используйте annotat ${NC}"
+
 
 if [[ -z $6 ]]; then
 echo -e  "Usage \n ${BLUE}makeann fontcolor fontsize vertposition  bgpic 'annotation' outpic ${NC}"
