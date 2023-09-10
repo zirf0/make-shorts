@@ -1,0 +1,18 @@
+#/bin/bash
+. function
+
+#style="force_style='FontName=Mistral,FontSize=10,MarginV=90,PrimaryColour=&Hffff00'"
+#style=$(<style)
+# make usage: addsub video.mp4 sub.ass out.mp4
+
+
+
+if [[ -z $3 ]]; then
+echo -e "Usage:\n${BLUE} subadd video.mp4 sub.srt out.mp4"${NC}
+exit
+fi
+
+set_subtitles_style
+
+ffmpeg -i "$1" -vf subtitles="$2:$SubtitlesStyle"  -r 25 -c:v libx264 -y "$3"
+

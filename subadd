@@ -1,8 +1,0 @@
-#/bin/bash
-. colours
-# make usage: addsub video.mp4 sub.ass out.mp4
-if [[ -z $3 ]]; then
-echo -e "Usage:\n${BLUE} subadd video.mp4 sub.ass out.mp4"${NC}
-exit
-fi
-ffmpeg -i "$1" -vf ass="$2"  -r 25 -c:v libx264 -y "$3" 

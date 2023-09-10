@@ -1,0 +1,154 @@
+#functions for bash
+
+#. colours-subtitles # BBGGRR color definitions
+. colours # bash color definitions
+
+
+function select_font ()
+{
+#функция позволяет выбрать шрифт из списка#  в файле ~./fontinuse и присвоит имя пер# переменной $FontName
+local index
+local number
+local fontlist
+
+readarray -O 1 -t fontlist < ~/.fontinuse #файл с именами шрифтов
+
+local len=${#fontlist[*]}
+
+echo -e ${BLUE}  'Всего шрифтов ' $len 
+{
+for index in ${!fontlist[*]}
+do
+    printf "%4d: %s\n" $index ${fontlist[$index]}
+done
+}
+
+while :; do
+  read -p "Выберите шрифт: 1-$len: " number
+  [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
+  if ((number >= 1 && number <= $len)); then
+    FontName=${fontlist[$number]}  	  
+    echo -e ${YELLOW} '$FontName='${fontlist[$number]} ${NC}
+    break
+  else
+    echo "Пока нет такого, выберите имеющийся"
+  fi
+done
+  echo -e ${NC}
+
+}
+function set_subtitles_style () {
+# по умолчанию
+local d1="," 
+FontName="Mistral"
+FontSize=10
+declare -i MarginV=70
+PrimaryColour=''
+
+select_font
+select_font_size
+select_margin_v
+select_subtitles_colour
+# init
+
+s1="force_style='FontName="
+s2=$FontName$d1
+s3="FontSize="
+s4=$FontSize$d1
+s5="MarginV="
+s6=$MarginV$d1
+s7="PrimaryColour="
+s8=$PrimaryColour
+fin="'"
+
+
+SubtitlesStyle=${s1}${s2}${s3}${s4}${s5}${s6}${s7}${s8}${fin}
+
+echo -e ${YELLOW}'$SubtitlesStyle='${SubtitlesStyle} ${NC}
+}
+function select_font_size () {
+# по умолчанию
+while :; do
+echo -e ${BLUE}	
+  read -p "Выберите размер шрифта: 8-96: " number
+  [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
+  if ((number >= 8 && number <= 96)); then
+    FontSize=$number 	  
+    echo   -e ${YELLOW} '$FontSize='${FontSize}  ${NC}
+    break
+  else
+    echo "Размер вне диапазона"
+  fi
+done
+
+}
+function select_margin_v () {
+# по умолчанию
+while :; do
+echo -e ${BLUE}	
+  read -p "Выберите отступ в пкс: 10-500: " number
+  [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
+  if ((number >= 10 && number <= 500)); then
+    MarginV=$number 	  
+    echo   -e ${YELLOW} '$MarginV='${MarginV}  ${NC}
+    break
+  else
+    echo "Размер вне диапазона"
+  fi
+done
+
+}
+function s1 () {
+# по умолчанию
+while :; do
+echo -e ${BLUE}	
+  read -p "Выберите размер шрифта: 8-96: " number
+  [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
+  if ((number >= 8 && number <= 96)); then
+    FontSize=$number 	  
+    echo   -e ${YELLOW} '$FontSize='${FontSize}  ${NC}
+    break
+  else
+    echo "Размер вне диапазона"
+  fi
+done
+
+}
+
+. colours
+
+function select_subtitles_colour ()
+{
+#функция позволяет выбрать цвет субтитров из списка#  в файле ~/.colours-subtitles и присвоит имя пер# переменной $PrimaryColour
+local index
+local number
+local colourlist
+
+readarray -O 1 -t colourlist < ~/.colours-subtitles #файл с именами шрифтов
+
+local len=${#colourlist[*]}
+
+echo -e ${BLUE}  'Всего цветов ' $len 
+{
+for index in ${!colourlist[*]}
+do
+   ColorName=${colourlist[$index]%=*}
+    printf "%4d: %s\n" $index ${ColorName}
+done
+}
+
+while :; do
+  read -p "Выберите цвет: 1-$len: " number
+  [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
+  if ((number >= 1 && number <= $len)); then
+    PrimaryColour=${colourlist[$number]#*=}  	  
+    echo -e ${YELLOW} '$PrimaryColour='${colourlist[$number]}
+    echo -e $PrimaryColour${NC}
+    break
+  else
+    echo "Пока нет такого, выберите имеющийся"
+  fi
+done
+  echo -e ${NC}
+
+}

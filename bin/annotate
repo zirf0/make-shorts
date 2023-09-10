@@ -1,0 +1,19 @@
+#/bin/bash
+#
+. function
+# make annotation  annotat fontsize in_pic 'annotation' out_pic 
+
+
+if [[ -z $4 ]]; then
+echo -e  "Usage \n ${BLUE} $(basename $0) fontcolor bgpic 'annotation' outpic ${NC}"
+echo -e "Example\n ${BLUE} $(basename $0)  yellow bg.png 'Lorem ipsum' out.png${NC} "
+exit
+fi
+
+select_font
+select_font_size
+select_margin_v
+#echo $MarginV
+
+magick -fill $1 $2 -gravity North -pointsize ${FontSize} -font ${FontName}  -annotate +0+${MarginV} "$3"  $4	
+

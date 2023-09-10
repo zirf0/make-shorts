@@ -14,17 +14,21 @@ Concatenate, add subtitles & LOGO, "normalize" video etc.
 
 README.md
 
-.bashrc.example - example with enc variables for  scripts
+.'bashrc.example - example with enc variables for  scripts
 
-colours - bash colors variables
+colours.example - bash colors variables
 
+colours-subtitles.example - BBGGRR colours. 
+'
 concat - concatenates 2 files.
 
 crop - cut&crop video.
 
+function - library functions for scripts
+
 getaudio - get audio from youtube.
 
-makeann -  create notes over picture (imagemagick). makeannb, makeanni for bold and italic, respectively.
+annotate -  create notes over picture (imagemagick).
 
 makez - make video from a static picture with fake audio track.
 
@@ -32,11 +36,11 @@ morphing - morphing 2 pics (about 4 sec).
 
 pv720.png - canvas 720x1280.
 
-skel.ass - example subtitle file.
+skel.srt - example subtitle file.
 
-subadd - add subtitled, ass format.
+subadd - add subtitled, srt format, color, font, vertical position are selectable.
 
-subinit - copy to current dir example file skel.ass.
+subinit - copy to current dir example file skel.srt.
 
 tgadd - add logo and sign.
 
