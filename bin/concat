@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. colours # add colors defs
+. ~/bin/colours # add colors defs
 
 if [[ -z $3 ]]; then                     echo -e ${NC} "usage: \n${BLUE}concat input1.mp4 input2.m4 concat.mp4 "${NC}
 exit

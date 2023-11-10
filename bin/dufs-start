@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. colours
+pidofdufs=$(pidof dufs)
+if [ -z $pidofdufs ]; then
+	echo -e ${GREEN} "Starting dufs WebDAV server" 
+	dufs --log-format='' -A -a admin:123@/:rw --auth-method basic $HOME 2>&1 1>/dev/null &
+sleep 1	
+port=$(ss -ltnp 2>/dev/null | awk '/dufs/{print $4}' | tail -n 1)
+echo -e "Listening port: ${port}" 
+    else echo -e ${BLUE}"dufs is already running" ${NC}
+fi
+
+

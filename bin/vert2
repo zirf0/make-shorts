@@ -1,0 +1,46 @@
+#!/bin/bash
+. ~/bin/function
+# make nornal DAR 
+VER='1.0'
+NAME=$(basename $0)
+
+#---------------
+# use getopts 
+# -i input
+# -o output 
+# -p picture
+
+#check options
+while getopts ":i:o:p:" opt; do
+  case $opt in
+    i) input_file=$OPTARG
+      echo -e ${YELLOW}"Input file:" $(basename $input_file) ${NC}
+      ;;
+    o) output_file=$OPTARG 
+    echo -e ${YELLOW}"Output file:" $(basename $output_file) ${NC}
+    ;;
+    p) bg_pic=$OPTARG
+    echo -e ${YELLOW}"Bg picture:" $(basename $bg_pic) ${NC}
+    ;;
+    \?)
+      echo -e ${RED}"Invalid option: -$OPTARG"${NC} >&2
+      exit 1
+      ;;
+    :) echo -e ${RED}"Option -$OPTARG requires an argument."${NC} >&2
+    exit 1
+      ;;
+  esac
+done
+
+if [ $OPTIND -eq 1 ]; then 
+usage
+fi
+shift $((OPTIND-1))
+
+sleep 3
+
+
+ffmpeg -loop 1 -i $bg_pic -i $input_file -filter_complex 'overlay=(W-w)/2:(H-h)/2:shortest=1,format=yuv420p'  -c:v libx264 $output_file
+
+
+

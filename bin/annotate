@@ -1,13 +1,15 @@
 #/bin/bash
 #
 . function
+
+VER='1.0'
+NAME=$(basename $0)
+
 # make annotation  annotat fontsize in_pic 'annotation' out_pic 
 
-
-if [[ -z $4 ]]; then
-echo -e  "Usage \n ${BLUE} $(basename $0) fontcolor bgpic 'annotation' outpic ${NC}"
-echo -e "Example\n ${BLUE} $(basename $0)  yellow bg.png 'Lorem ipsum' out.png${NC} "
-exit
+# requires 4 params
+if [[ "$#" -ne 4 ]]; then
+usage
 fi
 
 select_font

@@ -1,0 +1,7 @@
+#!/bin/bash
+# get ipv4 from ip a output
+. colours
+tmp1=$(ip a | awk '/192/{print $2}')
+ip=${tmp1%\/*}
+echo -e ${BLUE} $ip ${NC}
+echo ${#ip}

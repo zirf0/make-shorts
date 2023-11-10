@@ -1,26 +1,46 @@
 #!/bin/bash
+VER='1.0'
+NAME=$(basename $0)
 
-. colours # add colors defs
+. ~/bin/function # 
 
-# 1 - input file
-# 2 - start time
-# 3 - end time
+# 1 - input_file
+# 2 - start_time
+# 3 - end_time
 # 4 - crop h size 
 # 5 - crop v size
 # 6 - crop h offset
 # 7 - crop v offset
 # 8 - output file 
 
-if [ -z $8 ];
+if [ $# -ne 8 ];
 then 
-echo -e Usage:
-echo -e ${BLUE} ' inputfile starttime endtime crophsize \
-cropvsize crophoffset cropvoffset outputfile' 
-echo -e ${WHITE} Example:
-echo -e ${BLUE}'crop input.mp4 0 7 600 800 100 0 out.mp4'${NC}
-exit
+usage
 fi
 
+#set human readable vars
+
+input_file=$1 # input file
+#start_time=$2
+end_time=$3
+
+#get  lenght
+
+tmp=$(ffmpeg -i $input_file 2>&1 | awk '/Duration/{print $2}')
+len=${tmp%,}
 
 
-ffmpeg -i $1 -c:v libx264 -ss $2 -t $3 -vf crop="$4":$5:$6:$7 -s 720x1280 -y $8
+#parse option
+
+if [[ "$end_time" == "full" ]]; then 
+start_time=0
+end_time=$len
+else 
+start_time=$2
+end_time=$3
+
+fi
+echo -e ${YELLOW}"Start time=$start_time, Duration=$end_time" ${NC}
+
+sleep 2
+ffmpeg -i $input_file -c:v libx264 -ss $start_time -t $end_time -vf crop="$4":$5:$6:$7 -s 720x1280 -y $8

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Save documents, home/bin on yandex disk
+. ~/bin/colours
+
+RC='/data/data/com.termux/files/usr/bin/rclone'
+echo -e ${BLUE} "Syncying $doc" ${CYAN} 
+$RC sync /storage/emulated/0/Documents nhm7:android/documents --progress
+echo -e ${BLUE} "Syncing $HOME " ${CYAN} 
+$RC sync $HOME  nhm7:termux/home --exclude /termux-packages/** --exclude /.cache/** --exclude /.gnupg/**    --progress 
+echo -e ${NC}
+

@@ -1,5 +1,5 @@
 #!/bin/bash
-. colours
+. ~/bin/colours
 # make nornal DAR 
 
 if [[ -z $3 ]]; then

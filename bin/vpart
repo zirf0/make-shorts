@@ -1,5 +1,5 @@
 #!/bin/bash
-. colours
+. function
 # get part from youtube
 YT='yt-dlp'
 TMP='tmp.tmp'
@@ -8,15 +8,37 @@ TMP='tmp.tmp'
 
 if [ -z $4 ];
 then 
-echo -e "Usage:\n${BLUE}vpart start_time time url outfile"${NC}
+echo -e "Usage:\n${BLUE}vpart  url start_time duration outfile"${NC} 
 echo
-echo -e "Example:\n${BLUE}vpart 00:00:00 10 https://youtu.be/ETA6P3sNqQY out.mp4"${NC}
+echo -e "Example:\n${YELLOW}vpart  https://youtu.be/ETA6P3sNqQY 1:00 10 out.mp4"${NC}
+echo -e "Example:\n${YELLOW}vpart  https://youtu.be/ETA6P3sNqQY 1:00 ${BLUE}full${YELLOW} out.mp4"${NC}
 exit
 fi
 
-$YT --youtube-skip-dash-manifest -g $3 > $TMP # get video and audio urls
+
+url=$1
+start_time=$2
+duration=$3
+out_file=$4
+
+# get  lenght
+
+#len=$($YT $url --skip-download -j | jq | awk '/duration_string/{gsub(/"|,/,"",$2); print $2}')
+yt_video_len len $url
+
+#parse option
+
+if [[ "$duration" == "full" ]]; then 
+duration=$len
+fi
+# out data
+echo -e "${YELLOW} Start time: $start_time Duration: $duration ${NC}"
+sleep 3
+
+
+$YT --youtube-skip-dash-manifest -g $url > $TMP # get video and audio urls
 video=$(head -n 1 $TMP)
 audio=$(tail -n 1 $TMP)
 	
-ffmpeg -ss "$1"  -i $video -ss "$1" -i $audio -map 0:v -map 1:a -to "$2" -c:v libx264 -b:v 1M -y $4 
+ffmpeg -ss "$start_time"  -i $video -ss "$start_time" -i $audio -map 0:v -map 1:a -t "$duration" -c:v libx264 -y $out_file
 rm $TMP

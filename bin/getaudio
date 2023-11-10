@@ -1,16 +1,38 @@
 #!/bin/bash
-# add colors definitions 
-. colours
+VER='1.0'
+NAME=$(basename $0)
+
+. function
+
 YT='yt-dlp'
 
 # get url, $1 - youtube uri
 #
-if [[ -z $2 ]]; then
-	echo -e ${NC} "usage \n ${BLUE} getaudio youtube_url outfile.mp3"${NC}
-	exit
+
+
+if [[ $# -ne 4 ]]; then
+    usage
+fi
+
+
+$YT -g $3 > t
+a=$(tail -n 1 t)
+# get  lenght
+tmp=$(ffmpeg -i $a 2>&1 | awk '/Duration/{print $2}')
+len=${tmp%,}
+
+
+#parse option
+
+if [[ "$2" == "full" ]]; then 
+start=0
+end=$len
+else 
+start=$1
+end=$2
 
 fi
-$YT -g $1 > t
-a=$(tail -n 1 t)
 rm t
-ffmpeg -i $a $2
+echo -e ${YELLOW} "Start: $start End: $end" ${NC}
+sleep 5
+ffmpeg -i $a -ss $start -t $end -y  $4

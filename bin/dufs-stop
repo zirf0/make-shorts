@@ -1,0 +1,8 @@
+#!/bin/bash
+. colours
+pidofdufs=$(pidof dufs)
+if [ -z $pidofdufs ]; then
+	echo -e ${RED} "dufs isn't running" ${NC}
+else
+	kill $pidofdufs
+fi

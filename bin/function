@@ -1,31 +1,38 @@
 #functions for bash
-
-#. colours-subtitles # BBGGRR color definitions
+# значения по умолчанию
+FontName='Arial'
+FontSize=13
+MarginV=70
+PrimaryColour='&HFFFFFF' # white
+Version=0.1 # current version
+. ~/.colours-subtitles # BBGGRR color definitions
 . colours # bash color definitions
-
+ # file with help messages
+. ~/bin/help.inc
 
 function select_font ()
 {
-#функция позволяет выбрать шрифт из списка#  в файле ~./fontinuse и присвоит имя пер# переменной $FontName
+#функция позволяет выбрать шрифт из списка#  в файле ~./fontinuse и присвоить имя перпеременной $FontName
 local index
-local number
 local fontlist
 
 readarray -O 1 -t fontlist < ~/.fontinuse #файл с именами шрифтов
 
-local len=${#fontlist[*]}
+local len=${#fontlist[*]} # размер массива
 
 echo -e ${BLUE}  'Всего шрифтов ' $len 
 {
 for index in ${!fontlist[*]}
 do
-    printf "%4d: %s\n" $index ${fontlist[$index]}
+    printf "%4d: %s\n" $index ${fontlist[$index]} #выводим список шрифтов
 done
 }
 
 while :; do
-  read -p "Выберите шрифт: 1-$len: " number
+  read -p "Выберите шрифт: 1-$len:(q - выход) " number
+      check_exit  # call check_exit
   [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
+  
   if ((number >= 1 && number <= $len)); then
     FontName=${fontlist[$number]}  	  
     echo -e ${YELLOW} '$FontName='${fontlist[$number]} ${NC}
@@ -49,6 +56,7 @@ select_font
 select_font_size
 select_margin_v
 select_subtitles_colour
+
 # init
 
 s1="force_style='FontName="
@@ -67,12 +75,13 @@ SubtitlesStyle=${s1}${s2}${s3}${s4}${s5}${s6}${s7}${s8}${fin}
 echo -e ${YELLOW}'$SubtitlesStyle='${SubtitlesStyle} ${NC}
 }
 function select_font_size () {
-# по умолчанию
+# 
 while :; do
 echo -e ${BLUE}	
-  read -p "Выберите размер шрифта: 8-96: " number
+  read -p "Выберите размер шрифта: 8-96, q - выход: " number
+  check_exit
   [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
-  if ((number >= 8 && number <= 96)); then
+  if ((number >= 8 && number <= 196)); then
     FontSize=$number 	  
     echo   -e ${YELLOW} '$FontSize='${FontSize}  ${NC}
     break
@@ -83,12 +92,13 @@ done
 
 }
 function select_margin_v () {
-# по умолчанию
+# выбираем позицию по вертикали
 while :; do
 echo -e ${BLUE}	
-  read -p "Выберите отступ в пкс: 10-500: " number
+  read -p "Выберите отступ в пкс: 0-1000: (q-выход) " number
+  check_exit
   [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
-  if ((number >= 10 && number <= 500)); then
+  if ((number >= 0 && number <= 1000)); then
     MarginV=$number 	  
     echo   -e ${YELLOW} '$MarginV='${MarginV}  ${NC}
     break
@@ -98,28 +108,12 @@ echo -e ${BLUE}
 done
 
 }
-function s1 () {
-# по умолчанию
-while :; do
-echo -e ${BLUE}	
-  read -p "Выберите размер шрифта: 8-96: " number
-  [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
-  if ((number >= 8 && number <= 96)); then
-    FontSize=$number 	  
-    echo   -e ${YELLOW} '$FontSize='${FontSize}  ${NC}
-    break
-  else
-    echo "Размер вне диапазона"
-  fi
-done
 
-}
 
-. colours
 
 function select_subtitles_colour ()
 {
-#функция позволяет выбрать цвет субтитров из списка#  в файле ~/.colours-subtitles и присвоит имя пер# переменной $PrimaryColour
+#функция позволяет выбрать цвет субтитров из списка#  в файле ~/.colours-subtitles и присвоит имя переменной $PrimaryColour
 local index
 local number
 local colourlist
@@ -138,12 +132,13 @@ done
 }
 
 while :; do
-  read -p "Выберите цвет: 1-$len: " number
+  read -p "Выберите цвет: 1-$len:(q - выход) " number
+  check_exit
   [[ $number =~ ^[0-9]+$ ]] || { echo "Введите число"; continue; }
   if ((number >= 1 && number <= $len)); then
     PrimaryColour=${colourlist[$number]#*=}  	  
     echo -e ${YELLOW} '$PrimaryColour='${colourlist[$number]}
-    echo -e $PrimaryColour${NC}
+    echo -e ${NC}
     break
   else
     echo "Пока нет такого, выберите имеющийся"
@@ -151,4 +146,39 @@ while :; do
 done
   echo -e ${NC}
 
+}
+function print_version () {
+# функция
+echo -e ${YELLOW} "Текущая версия библиотеки функций "  $Version ${NC}
+}
+function check_exit () {
+if [ $number = 'q' ]; then 
+   echo -e ${RED}'Выбрано q - выход'${NC}
+   exit #quit
+  fi
+}
+function save_std_err_out () {
+#сохраняем stderr,stdout и отправляем в /dev/null
+exec 3>&1
+exec 4>&2
+exec 2> /dev/null 1>&2
+}
+function restore_std_err_out () {
+#восстанавливаем stderr и stdout
+exec 2>&3 3>&-
+exec 1>&4 4>&-
+
+}
+function yt_video_len () {
+#get lenght of yt video. Первый параметр ипременная для получения длинны
+# второй параметр урл видео
+local url=$2
+local -n LENGHT=$1
+LENGHT=$(yt-dlp $url --skip-download -j | jq | awk '/duration_string/{gsub(/"|,/,"",$2); print $2}')
+}
+function usage () {
+# set help_var to script $NAME
+declare -n help_var=${NAME%.*}
+echo -e "$help_var"
+exit   
 }

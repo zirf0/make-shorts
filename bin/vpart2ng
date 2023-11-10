@@ -1,0 +1,83 @@
+#!/bin/bash
+#
+VER='1.0'
+NAME=$(basename $0)
+. function
+YT='yt-dlp'
+
+
+# use getopts
+
+# -u url
+# -s start_time
+# -d duration
+# -o out_file
+# -b bitrate video
+# -c copy 
+# -g scale (e.g 1280x720)
+#optiont initially empty
+opt1=""
+opt2=""
+opt3=""
+out_file="out.mp4"
+url=""
+start_time=""
+duration=""
+
+while getopts ":u:s:d:o:g:b:c" opt; do
+  case $opt in
+    u) url=$OPTARG;;
+    s) start_time=$OPTARG;;
+    d) duration=$OPTARG;;
+    o) out_file=$OPTARG;;
+    b) bitrate=$OPTARG 
+       opt1="-b:v $bitrate";;
+    c)  opt2="-c copy";;
+    g)  scale=$OPTARG
+    opt3="-s $scale";;
+    
+    \?)
+      echo -e ${RED}"Invalid option: -$OPTARG"${NC} >&2
+      exit 1
+      ;;
+    :) echo -e ${RED}"Option -$OPTARG requires an argument."${NC} >&2
+    exit 1
+      ;;
+  esac
+  
+done
+if [ $OPTIND -eq 1 ]; then 
+usage
+fi
+#shift $((OPTIND-1))
+
+
+#get  lenght
+
+yt_video_len len $url
+#parse option
+
+if [[ "$duration" == "full" ]]; then 
+duration=$len
+fi
+# out data
+echo -e "${YELLOW}Start time: $start_time \nDuration: $duration\nOutput file: $out_file\nurl: $url\nBitrate: $opt1\nEncode: $opt2\nScale: $opt3\n${NC}"
+
+sleep 3
+
+save_std_err_out # save out and err
+
+
+$YT $url -o - | ffmpeg -hide_banner -loglevel 0 -y -i - -ss $start_time -t $duration $opt1 $opt2 $opt3 $out_file
+exit_code=$?
+
+
+restore_std_err_out
+
+if [[ $exit_code -ne 0 ]]; 
+then 
+     echo -e ${RED}"Произошла ошибка!"${NC}
+else 
+      echo -e ${BLUE}"Все!" ${NC}
+fi
+

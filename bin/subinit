@@ -1,4 +1,4 @@
 #!/bin/bash
 . colours 
-echo -e ${BLUE} 'copy skel.ass here'${NC}
+echo -e ${BLUE} 'copy skel.srt here'${NC}
 cp ~/bin/skel.srt  .
